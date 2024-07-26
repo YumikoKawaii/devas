@@ -1,0 +1,66 @@
+openapi: 3.0.0
+tags:
+  - name: devas
+    description: voice from your inner ego
+info:
+  version: 1.0.0
+  title: Devas
+  description: API design for Devas Service
+servers:
+  - url: empty
+paths:
+  /api/v1/messages:
+    get:
+      summary: Get messages
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: id of message
+                      conversationId:
+                        type: string
+                        description: id of conversation
+                      sender:
+                        type: string
+                        description: sender
+                      content:
+                        type: string
+                        description: content of message
+        "400":
+          description: |-
+            Bad Request
+              - `400` - {param} is invalid
+              - `404` - {param} not found
+          content:
+            application/json:
+              examples:
+                400 - Bad Request:
+                  value:
+                    code: 400
+                    message: Bad Request
+                404 - Param not found:
+                  value:
+                    code: 404
+                    message: segment not found
+        "500":
+          description: "Error when internal server got error"
+          content:
+            application/json:
+              examples:
+                500 - Internal Server Error:
+                  value:
+                    code: 500
+                    message: internal server error
