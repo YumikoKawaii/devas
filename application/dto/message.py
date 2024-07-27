@@ -1,6 +1,5 @@
 from typing import Optional, List, Any
 from datetime import datetime
-from application.pkg.repository.models import Message
 from application.dto.base import CamelBaseModel
 
 
@@ -13,6 +12,26 @@ class GetMessagesRequest:
     end_action_time: Optional[datetime]
 
 
+class MessageInResponse(CamelBaseModel):
+    id: int = ""
+    conversation_id: str = ""
+    sender: str = ""
+    content: str = ""
+    action_time: datetime = ""
+
+    def __init__(self, id: int, conversation_id: str, sender: str, content: str, action_time: datetime):
+        super().__init__()
+        self.id = id
+        self.conversation_id = conversation_id
+        self.sender = sender
+        self.content = content
+        self.action_time = action_time
+
+
 class GetMessagesResponse(CamelBaseModel):
-    messages: Optional[List[Message]]
+    messages: Optional[List[MessageInResponse]] = []
+
+    def __init__(self, messages: List[MessageInResponse]):
+        super().__init__()
+        self.messages = messages
 

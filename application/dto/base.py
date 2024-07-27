@@ -1,7 +1,6 @@
 import http
 from typing import Generic, TypeVar, Optional
 from pydantic import BaseModel
-from pydantic.generics import GenericModel
 import application.utilities.utils as utils
 
 T = TypeVar("T")
@@ -15,10 +14,11 @@ class CamelBaseModel(BaseModel):
 
 
 class ResponseSchemaBase(CamelBaseModel):
-    __abtract__ = True
+    class Config:
+        __abstract__ = True
 
-    code: int
-    message: str
+    code: int = ""
+    message: str = ""
 
     def success_response(self):
         self.code = http.HTTPStatus.OK
@@ -26,14 +26,11 @@ class ResponseSchemaBase(CamelBaseModel):
         return self
 
 
-class DataResponse(ResponseSchemaBase, GenericModel, Generic[T]):
-
+class DataResponse(ResponseSchemaBase, Generic[T]):
     data: Optional[T] = None
 
-    class Config:
-        arbitrary_types_allowed = True
-
     def success_response(self, data: Optional[T]):
+        super().success_response()
         self.code = http.HTTPStatus.OK
         self.message = 'Success'
         self.data = data
