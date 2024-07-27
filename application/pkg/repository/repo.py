@@ -1,10 +1,15 @@
+from typing import List
+from datetime import datetime
+import models
 import sqlalchemy.engine.base
 from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.orm import Session
+from sqlalchemy import select
 from settings import settings
 
 
 class IRepository:
-    def initialize(self):
+    def get_messages(self, conditions: models.GetMessagesFilter) -> List[models.Message]:
         pass
 
 
@@ -17,7 +22,10 @@ class Repository(IRepository):
         connection = engine.connect()
         self.connection = connection
 
-    def initialize(self):
+    def get_messages(self, conditions: models.GetMessagesFilter) -> List[models.Message]:
+        stmt = select(models.Message)
+        messages = self.connection.scalars(stmt)
+        print(messages)
+        return []
         pass
-
 

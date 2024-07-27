@@ -1,2 +1,5 @@
 class Handler:
-    def get_message(self):
+    def get_messages(self):
+
+        pass
+
